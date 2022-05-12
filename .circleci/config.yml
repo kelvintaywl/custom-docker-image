@@ -38,7 +38,7 @@ jobs:
             
             pyenv which python
             python --version
-       - run:
+      - run:
           name: install Python 3.10.1
           command: |
             pyenv install 3.10.1
