@@ -26,8 +26,28 @@ jobs:
       - docker/push:
           image: $DOCKER_HUB_USERNAME/<< parameters.image-name >>
           tag: $CIRCLE_SHA1,<< parameters.image-tag >>
+  run-with-custom-image:
+    docker:
+      - image: docker.io/kelvintaywlcircleci/custom-go-pyenv:latest
+    steps:
+      - run:
+          name: inspect Pyenv
+          command: |
+            pyenv
+            pyenv versions
+            
+            pyenv which python
+            python --version
+       - run:
+          name: install Python 3.10.1
+          command: |
+            pyenv install 3.10.1
+            pyenv global 3.10.1
+            
+            python --version
 
 workflows:
   publish-image:
     jobs:
-      - build-publish-docker-hub
+      # - build-publish-docker-hub
+      - run-with-custom-image
